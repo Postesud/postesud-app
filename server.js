@@ -3,7 +3,9 @@ const app = express();
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 
-const db = new sqlite3.Database('./db/database.sqlite');
+// Modifica: salva il database nella cartella temporanea di Render
+const db = new sqlite3.Database('/tmp/database.sqlite');
+
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -15,6 +17,11 @@ app.get('/', (req, res) => {
 
 app.get('/login', (req, res) => {
   res.render('login');
+});
+
+app.post('/dashboard', (req, res) => {
+  // Simulazione login: accetta qualsiasi utente/password
+  res.redirect('/dashboard');
 });
 
 app.get('/dashboard', (req, res) => {
