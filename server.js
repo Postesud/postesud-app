@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 
-// Modifica: salva il database nella cartella temporanea di Render
+// Salva il database nella cartella temporanea di Render
 const db = new sqlite3.Database('/tmp/database.sqlite');
 
 app.use(express.urlencoded({ extended: true }));
@@ -28,6 +28,8 @@ app.get('/dashboard', (req, res) => {
   res.render('dashboard');
 });
 
-app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000');
+// Usa la porta che Render assegna dinamicamente
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
