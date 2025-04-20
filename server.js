@@ -5,7 +5,6 @@ const sqlite3 = require('sqlite3').verbose();
 const app = express();
 const db = new sqlite3.Database('/tmp/database.sqlite');
 
-// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(session({ secret: 'postesud-segreto', resave: false, saveUninitialized: true }));
 app.set('view engine', 'ejs');
@@ -17,7 +16,7 @@ function checkAuth(req, res, next) {
   res.redirect('/login');
 }
 
-// Login base
+// Login
 app.get('/login', (req, res) => res.render('login', { error: null }));
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
@@ -32,7 +31,7 @@ app.post('/login', (req, res) => {
 });
 app.get('/logout', (req, res) => req.session.destroy(() => res.redirect('/login')));
 
-// Anagrafica clienti
+// Clienti
 app.get('/clienti', checkAuth, (req, res) => {
   db.all("SELECT * FROM clienti", (err, clienti) => {
     res.render('clienti', { clienti });
@@ -46,7 +45,7 @@ app.post('/clienti/nuovo', checkAuth, (req, res) => {
   });
 });
 
-// Distinte
+// Distinta e spedizioni
 app.get('/distinta/:id', checkAuth, (req, res) => {
   const distinta_id = req.params.id;
   db.get("SELECT * FROM clienti WHERE id = ?", [distinta_id], (err, cliente) => {
