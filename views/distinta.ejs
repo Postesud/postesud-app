@@ -1,0 +1,19 @@
+<h1>Distinta per <%= cliente.nome %></h1>
+<form method="POST" action="/distinta/<%= distinta_id %>/spedizione">
+  <input name="destinatario" placeholder="Destinatario"><br>
+  <select name="tipo">
+    <option>Posta prioritaria</option>
+    <option>Raccomandata semplice</option>
+    <option>Raccomandata A/R</option>
+    <option>Atto giudiziario</option>
+    <option>Posta massiva</option>
+  </select><br>
+  <button type="submit">Aggiungi spedizione</button>
+</form>
+<h3>Spedizioni</h3>
+<ul>
+<% spedizioni.forEach(s => { %>
+  <li><%= s.tipo %> a <%= s.destinatario %> <% if(s.tracer){ %> — <strong><%= s.tracer %></strong><% } %></li>
+<% }) %>
+</ul>
+<a href="/clienti">← Torna ai clienti</a>
